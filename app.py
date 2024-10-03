@@ -1,48 +1,6 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-
-# Set up light and dark theme toggle
-theme = st.sidebar.radio('Choose Theme', ('Light', 'Dark'))
-
-# Apply background color based on theme
-if theme == 'Dark':
-    st.markdown(
-        """
-        <style>
-        body {
-            background-color: #0F0F0F; /* Phantom black */
-            color: white;
-        }
-        .card {
-            background-color: #1F1F1F;
-            color: white;
-            border-radius: 10px;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-        </style>
-        """, unsafe_allow_html=True
-    )
-else:
-    st.markdown(
-        """
-        <style>
-        body {
-            background-color: white;
-            color: black;
-        }
-        .card {
-            background-color: #F7F7F7;
-            color: black;
-            border-radius: 10px;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-        </style>
-        """, unsafe_allow_html=True
-    )
-
 # File uploader widget
 uploaded_file = st.file_uploader("Upload Excel file", type=["xlsx"])
 
