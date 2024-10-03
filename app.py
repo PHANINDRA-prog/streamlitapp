@@ -2,6 +2,28 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
+# Set up light theme
+st.markdown(
+    """
+    <style>
+    body {
+        background-color: white;
+        color: black;
+    }
+    .heading {
+        font-size: 36px;
+        font-weight: bold;
+        color: #4A4A4A;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    </style>
+    """, unsafe_allow_html=True
+)
+
+# Add a beautiful heading
+st.markdown('<div class="heading">DevOps Team Dashboard for 12.5</div>', unsafe_allow_html=True)
+
 # Set background color for the app
 st.markdown(
     """
