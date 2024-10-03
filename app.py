@@ -50,10 +50,6 @@ if uploaded_file:
     # Load the uploaded Excel file
     df = pd.read_excel(uploaded_file)
 
-    # Display the DataFrame
-    st.write("Data Overview:")
-    st.dataframe(df)
-
     # Dropdown for selecting a name
     selected_name = st.selectbox("Select a User", df['Name'].unique())
 
