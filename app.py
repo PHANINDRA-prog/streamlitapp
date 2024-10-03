@@ -50,10 +50,23 @@ st.markdown(
 # File uploader widget
 uploaded_file = st.file_uploader("Upload Excel file", type=["xlsx"])
 
+name_mapping = {
+    'Abhishek Kumar Thakur': 'thakura8',
+    'Abhinav Gabbita': 'gabbitav',
+    'Kaustuva Ranjan Das': 'ranjandk',
+    'Phanindra': 'pvsp',
+    'Vinod Vidya Srushti': 'vinodvas'
+}
+
+
 if uploaded_file:
     # Load the uploaded Excel file
     df = pd.read_excel(uploaded_file)
 
+
+    df['Name'] = df['Name'].replace(name_mapping)
+
+    
     # Dropdown for selecting a name
     selected_name = st.selectbox("Select a User", df['Name'].unique())
 
