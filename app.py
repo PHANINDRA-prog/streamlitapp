@@ -2,6 +2,29 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
+# Set background color for the app
+st.markdown(
+    """
+    <style>
+    body {
+        background-color: #F7F7F7; /* Light background */
+        color: black;
+    }
+    .card {
+        background-color: white;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: transform 0.2s; /* Animation effect */
+    }
+    .card:hover {
+        transform: scale(1.02); /* Scale up on hover */
+    }
+    </style>
+    """, unsafe_allow_html=True
+)
+
 # File uploader widget
 uploaded_file = st.file_uploader("Upload Excel file", type=["xlsx"])
 
@@ -34,7 +57,7 @@ if uploaded_file:
                 f"""
                 <div class="card" style="border: 2px solid {border_color};">
                     <h3>{row['Description']}</h3>
-                    <p>Status: {row['Status']}</p>
+                    <p style="font-weight: bold;">Status: {row['Status']}</p>
                     <p>Count: {row['Count']}</p>
                 </div>
                 """, unsafe_allow_html=True
@@ -57,7 +80,9 @@ if uploaded_file:
             y='Count',
             title=f'Activities for {selected_name}',
             color='Bar Color',
-            color_discrete_map=color_map
+            color_discrete_map=color_map,
+            labels={'Bar Color': 'Status'},
+            text='Count'  # Show count on the bars
         )
         
         st.plotly_chart(fig)
