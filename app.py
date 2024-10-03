@@ -2,23 +2,28 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# Title of the app
-st.title("User Activity Dashboard")
+# Set up light and dark theme toggle
+theme = st.sidebar.radio('Choose Theme', ('Light', 'Dark'))
 
-# Light/Dark theme toggle
-theme = st.radio("Choose Theme", ["Light", "Dark"])
-
-# Apply the chosen theme (Note: Streamlit doesn't directly support this but we can customize the page)
-if theme == "Dark":
+# Apply background color based on theme
+if theme == 'Dark':
     st.markdown(
         """
         <style>
         body {
-            background-color: #1e1e1e;
+            background-color: #0F0F0F; /* Phantom black */
             color: white;
         }
+        .card {
+            background-color: #1F1F1F;
+            color: white;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
         </style>
-        """, unsafe_allow_html=True)
+        """, unsafe_allow_html=True
+    )
 else:
     st.markdown(
         """
@@ -27,8 +32,16 @@ else:
             background-color: white;
             color: black;
         }
+        .card {
+            background-color: #F7F7F7;
+            color: black;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
         </style>
-        """, unsafe_allow_html=True)
+        """, unsafe_allow_html=True
+    )
 
 # File uploader widget
 uploaded_file = st.file_uploader("Upload Excel file", type=["xlsx"])
@@ -45,28 +58,33 @@ if uploaded_file:
     selected_name = st.selectbox("Select a User", df['Name'].unique())
 
     if selected_name:
-        # Filter the dataframe by the selected user
         filtered_df = df[df['Name'] == selected_name]
 
-        # Group tasks by Status
-        status_groups = filtered_df.groupby('Status')
+        # Loop through rows and display as cards with status-based borders
+        for _, row in filtered_df.iterrows():
+            status = row['Status']
+            
+            # Assign border color based on status
+            if status == 'Done':
+                border_color = 'green'
+            elif status == 'In Progress':
+                border_color = 'yellow'
+            elif status == 'Backlog':
+                border_color = 'red'
+            else:
+                border_color = 'gray'
+            
+            # Create card-style display for each task
+            st.markdown(
+                f"""
+                <div class="card" style="border: 2px solid {border_color};">
+                    <h3>{row['Description']}</h3>
+                    <p>Status: {row['Status']}</p>
+                    <p>Count: {row['Count']}</p>
+                </div>
+                """, unsafe_allow_html=True
+            )
 
-        # Display tasks in card-like components
-        for status, group in status_groups:
-            st.subheader(f"Status: {status}")
-
-            for index, row in group.iterrows():
-                # Using st.write to simulate card-like appearance
-                st.markdown(
-                    f"""
-                    <div style="border:1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 5px;">
-                        <strong>Description:</strong> {row['Description']} <br>
-                        <strong>Count:</strong> {row['Count']} <br>
-                        <strong>Status:</strong> {row['Status']}
-                    </div>
-                    """, unsafe_allow_html=True
-                )
-
-        # Optionally, we can still show the bar chart for an overview
-        fig = px.bar(filtered_df, x='Description', y='Count', color='Status', title=f'Activities for {selected_name}')
+        # Create a bar chart showing activity counts
+        fig = px.bar(filtered_df, x='Description', y='Count', title=f'Activities for {selected_name}')
         st.plotly_chart(fig)
