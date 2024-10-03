@@ -63,25 +63,22 @@ if uploaded_file:
                 """, unsafe_allow_html=True
             )
 
-        # Create a bar chart showing activity counts with status-based coloring
+        # Create a bar chart showing activity counts with correct status colors
         color_map = {
             'Done': 'green',
             'In Progress': 'yellow',
             'Backlog': 'red'
         }
         
-        # Add a new column for the bar color based on status
-        filtered_df['Bar Color'] = filtered_df['Status'].map(color_map)
-
         # Create the bar chart with the assigned colors
         fig = px.bar(
             filtered_df,
             x='Description',
             y='Count',
             title=f'Activities for {selected_name}',
-            color='Bar Color',
-            color_discrete_map=color_map,
-            labels={'Bar Color': 'Status'},
+            color='Status',  # Use 'Status' for coloring
+            color_discrete_map=color_map,  # Map colors correctly
+            labels={'Status': 'Status'},
             text='Count'  # Show count on the bars
         )
         
