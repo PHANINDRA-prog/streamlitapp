@@ -51,11 +51,11 @@ st.markdown(
 uploaded_file = st.file_uploader("Upload Excel file", type=["xlsx"])
 
 name_mapping = {
-    'Abhishek Kumar Thakur': 'thakura8',
-    'Abhinav Gabbita': 'gabbitav',
-    'Kaustuva Ranjan Das': 'ranjandk',
-    'Phanindra': 'pvsp',
-    'Vinod Vidya Srushti': 'vinodvas'
+    'thakura8':'Abhishek Kumar Thakur',
+    'gabbitav':'Abhinav Gabbita',
+    'ranjandk':'Kaustuva Ranjan Das',
+    'pvsp':'Phanindra',
+    'vinodvas':'Vinod Vidya Srushti'
 }
 
 
