@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+
 # File uploader widget
 uploaded_file = st.file_uploader("Upload Excel file", type=["xlsx"])
 
@@ -39,6 +40,24 @@ if uploaded_file:
                 """, unsafe_allow_html=True
             )
 
-        # Create a bar chart showing activity counts
-        fig = px.bar(filtered_df, x='Description', y='Count', title=f'Activities for {selected_name}')
+        # Create a bar chart showing activity counts with status-based coloring
+        color_map = {
+            'Done': 'green',
+            'In Progress': 'yellow',
+            'Backlog': 'red'
+        }
+        
+        # Add a new column for the bar color based on status
+        filtered_df['Bar Color'] = filtered_df['Status'].map(color_map)
+
+        # Create the bar chart with the assigned colors
+        fig = px.bar(
+            filtered_df,
+            x='Description',
+            y='Count',
+            title=f'Activities for {selected_name}',
+            color='Bar Color',
+            color_discrete_map=color_map
+        )
+        
         st.plotly_chart(fig)
